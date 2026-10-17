@@ -85,12 +85,14 @@
 
     .about { max-width: 34rem; margin: 0 auto; padding: clamp(64px, 10vw, 112px) 24px 0; text-align: center; }
     .about p { margin: 0 0 1.2em; color: var(--text); font-size: 1.12rem; line-height: 1.75; }
-    .facts { color: var(--gold); font-size: 1.15rem; letter-spacing: 0.01em; margin-top: 2em; }
-    .facts span { white-space: nowrap; }
-    .facts span + span::before { content: "·"; margin: 0 0.6em; }
+    /* Three facts in a list (each read as its own item), dots between them that are drawing only. */
+    .facts { list-style: none; margin: 0 0 1.2em; padding: 0; display: flex; flex-wrap: wrap; justify-content: center;
+             color: var(--text); font-size: 1.12rem; line-height: 1.75; letter-spacing: 0.01em; }
+    .facts li { white-space: nowrap; }
+    .facts li + li::before { content: "·"; content: "·" / ""; margin: 0 0.6em; }
     @media (max-width: 560px) {
-      .facts span { display: block; }
-      .facts span + span::before { content: none; }
+      .facts { flex-direction: column; align-items: center; }
+      .facts li + li::before { content: none; }
     }
 
     footer { padding: clamp(80px, 12vw, 128px) 24px 48px; text-align: center; color: var(--muted); font-size: 0.92rem; }
@@ -153,7 +155,7 @@
       <p>Lumen &amp; Leaf is a calm light puzzle game. Drag mirrors, glass and prisms onto a potting bench, turn and
         flip them, and guide the morning sun to every plant that needs it, while the shade-loving ferns stay in the
         dark. The light follows every move at once, so you can try an idea and see what happens straight away.</p>
-      <p class="facts"><span>50 handcrafted puzzles</span><span>No ads, ever</span><span>Free to try</span></p>
+      <ul class="facts"><li>50 handcrafted puzzles</li><li>No ads, ever</li><li>Free to try</li></ul>
     </section>
   </main>
 
