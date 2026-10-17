@@ -1,143 +1,102 @@
-/* Pinhole Games: one stylesheet for every page. No web fonts, no scripts, nothing loaded from
-   another site: a visitor's browser talks to pinholegames.com alone. */
+/* pinholegames.com. The Lumen & Leaf page wears the game's own look: its title painting, its lettering
+   (Open Sans SemiBold, gold with a dark edge) and its colours (src/game/palette.gd). The privacy policy
+   and the 404 page are plain pages. No scripts, nothing loaded from another site. */
+
+@font-face {
+  font-family: "Open Sans";
+  src: url("/assets/fonts/open-sans-semibold.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
 
 :root {
-  color-scheme: light dark;
-  --paper: #f8f1e4;
-  --paper-glow: #fbe6b4;
-  --card: #fffaf1;
-  --ink: #2a2b22;
-  --muted: #5c5848;
-  --link: #8a3f1e;
-  --leaf: #3d6a43;
-  --rule: #e4d6bb;
-  --badge: #f6dc9a;
-  --badge-ink: #4a3410;
-  --shadow: 0 1px 2px rgba(60, 45, 20, 0.08), 0 10px 28px rgba(60, 45, 20, 0.09);
-  --serif: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", "URW Palladio L", Georgia, serif;
-  --sans: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", "Helvetica Neue", Arial, sans-serif;
-  --gutter: clamp(16px, 5vw, 32px);
+  --ground: #1b201d;
+  --tray: #262e2a;
+  --text: #ede6d1;
+  --muted: #a6b0a1;
+  --gold: #ffdb73;
+  --edge: rgba(51, 33, 15, 0.85);
+  --brown: #3d2b1a;
+  --rule: #34403a;
+  --game: "Open Sans", system-ui, sans-serif;
+  --body: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", Arial, sans-serif;
+  --gutter: clamp(16px, 5vw, 48px);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --paper: #17201b;
-    --paper-glow: #2d2c1d;
-    --card: #212b25;
-    --ink: #ece5d0;
-    --muted: #b3b7a7;
-    --link: #f2c862;
-    --leaf: #9fd09a;
-    --rule: #34403a;
-    --badge: #e9c05a;
-    --badge-ink: #2b2207;
-    --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 10px 28px rgba(0, 0, 0, 0.25);
-  }
-}
-
-*, *::before, *::after { box-sizing: border-box; }
-
+* { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
-
-body {
-  margin: 0;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  font: 1.0625rem/1.65 var(--sans);
-  color: var(--ink);
-  /* Morning light falling from the top of the page. */
-  background: radial-gradient(130% 55% at 50% -8%, var(--paper-glow) 0%, var(--paper) 62%) no-repeat, var(--paper);
-  overflow-wrap: break-word;
-}
-
-img { max-width: 100%; height: auto; display: block; }
-
-a { color: var(--link); text-underline-offset: 0.18em; text-decoration-thickness: 1px; }
-a:hover { text-decoration-thickness: 2px; }
-a:focus-visible { outline: 3px solid var(--link); outline-offset: 3px; border-radius: 4px; }
-
-h1, h2, h3 { font-family: var(--serif); font-weight: 600; line-height: 1.2; letter-spacing: 0.005em; }
-h1 { font-size: clamp(2.2rem, 7vw, 3.3rem); margin: 0 0 0.4em; }
-h2 { font-size: clamp(1.45rem, 4.5vw, 1.8rem); margin: 2.2em 0 0.6em; }
-h3 { font-size: 1.2rem; margin: 1.6em 0 0.4em; }
+body { margin: 0; background: var(--ground); color: var(--text); font: 1.0625rem/1.6 var(--body); }
+img { display: block; max-width: 100%; height: auto; }
+a { color: var(--gold); text-underline-offset: 0.18em; }
+a:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
+h2 { font: 600 1.3rem/1.3 var(--game); margin: 2.4em 0 0.7em; color: var(--text); }
 p, ul { margin: 0 0 1em; }
-ul { padding-left: 1.25em; }
-li { margin-bottom: 0.45em; }
-li::marker { color: var(--leaf); }
+ul { padding-left: 1.1em; }
+li { margin-bottom: 0.5em; }
 
-.wrap { width: 100%; max-width: 46rem; margin: 0 auto; padding: 0 var(--gutter); }
-.wrap.wide { max-width: 60rem; }
-
-.skip { position: absolute; left: -999px; top: 0; }
-.skip:focus { left: 16px; top: 12px; z-index: 1; background: var(--card); padding: 8px 12px; border-radius: 8px; }
-
-/* The header: the mark and the studio's name, home from every page. */
-.site-header { padding: 22px 0 8px; }
-.brand {
-  display: inline-flex; align-items: center; gap: 12px;
-  font: 600 1.2rem/1 var(--serif); color: var(--ink); text-decoration: none;
-  min-height: 48px;
+/* The title screen: the painted meadow and its greenhouse, the game's name lettered over the sky. */
+.title {
+  min-height: 100svh;
+  padding: 16svh var(--gutter) 0;
+  background: #b9d3e6 url("/assets/lumen-and-leaf/title.jpg") center 22% / cover no-repeat;
+  text-align: center;
 }
-.brand img { width: 40px; height: 40px; }
-.brand:hover span { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
-
-main { flex: 1; padding: 28px 0 56px; }
-
-.lede { font-size: clamp(1.12rem, 3.6vw, 1.3rem); color: var(--muted); max-width: 36em; }
-
-.card {
-  background: var(--card);
-  border-radius: 18px;
-  box-shadow: var(--shadow);
-  overflow: hidden;
+.title h1 {
+  margin: 0;
+  font: 600 min(6.4rem, 12vw)/1.05 var(--game);
+  white-space: nowrap;
+  color: var(--gold);
+  -webkit-text-stroke: 0.15em var(--edge);
+  paint-order: stroke fill;
 }
-.card .body { padding: 20px clamp(18px, 4vw, 28px) 24px; }
-
-.game-head { display: flex; gap: 16px; align-items: center; margin-bottom: 12px; }
-.game-head img { width: 72px; height: 72px; border-radius: 22%; flex: none; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.18); }
-.game-head h3 { margin: 0; font-size: 1.5rem; }
-.game-head p { margin: 2px 0 0; color: var(--muted); font-size: 0.98rem; }
-
-.badge {
-  display: inline-block;
-  background: var(--badge); color: var(--badge-ink);
-  font-weight: 600; font-size: 0.92rem;
-  padding: 4px 12px; border-radius: 999px;
+/* Each line of the tagline on a line of its own, never wrapped, as the title screen has it. */
+.title p {
+  margin: 0.55em 0 0;
+  font: 600 min(1.45rem, 4vw)/1.45 var(--game);
+  color: var(--brown);
+  white-space: nowrap;
 }
 
-.more { display: inline-block; margin-top: 6px; font-weight: 600; min-height: 48px; line-height: 48px; }
+.about { padding: 40px var(--gutter) 24px; max-width: 46rem; margin: 0 auto; }
+.pricing { font: 600 clamp(1.25rem, 4vw, 1.6rem)/1.35 var(--game); color: var(--gold); margin-bottom: 0.4em; }
+.status { color: var(--muted); margin-bottom: 1.8em; }
 
-.hero-image { border-radius: 18px; box-shadow: var(--shadow); width: 100%; aspect-ratio: 1024 / 500; object-fit: cover; }
-
-.tagline { font-family: var(--serif); font-size: clamp(1.15rem, 3.8vw, 1.35rem); color: var(--muted); margin-top: -0.2em; }
-
-.pricing {
-  font-family: var(--serif); font-size: clamp(1.08rem, 3.4vw, 1.22rem);
-  border-left: 4px solid var(--badge); padding: 4px 0 4px 14px; margin: 1.2em 0;
-}
-
-/* Screenshots: a row to swipe on a phone, three side by side on a wider screen. */
+/* Screenshots: a row to swipe on a phone, a grid beside the painting on a wide screen. */
 .shots {
-  display: grid; grid-auto-flow: column; grid-auto-columns: min(68vw, 260px); gap: 14px;
-  overflow-x: auto; scroll-snap-type: x mandatory; padding: 4px 2px 14px; margin: 1.4em 0 0.4em;
-  overscroll-behavior-x: contain;
+  display: grid; grid-auto-flow: column; grid-auto-columns: min(62vw, 240px); gap: 12px;
+  overflow-x: auto; scroll-snap-type: x mandatory; overscroll-behavior-x: contain;
+  margin: 2em calc(-1 * var(--gutter)); padding: 0 var(--gutter) 8px;
 }
-.shots figure { margin: 0; scroll-snap-align: start; }
-.shots img { border-radius: 14px; box-shadow: var(--shadow); aspect-ratio: 540 / 960; width: 100%; }
-.shots figcaption { font-size: 0.92rem; color: var(--muted); margin-top: 8px; line-height: 1.45; }
-@media (min-width: 720px) {
-  .shots { grid-auto-flow: row; grid-template-columns: repeat(3, 1fr); overflow: visible; }
+.shots img { scroll-snap-align: start; border-radius: 10px; aspect-ratio: 540 / 960; width: 100%; }
+
+.site-footer { border-top: 1px solid var(--rule); margin-top: 3em; padding: 20px 0 36px; color: var(--muted); font-size: 0.95rem; }
+.site-footer p { margin: 0 0 0.4em; }
+
+/* A wide screen: the title screen stays in view at the left, the rest scrolls beside it. */
+@media (min-width: 960px) {
+  .page { display: grid; grid-template-columns: minmax(420px, 42vw) 1fr; }
+  .title { position: sticky; top: 0; height: 100vh; min-height: 0; padding: 14vh 32px 0; background-position: center 20%; }
+  .title h1 { font-size: clamp(2.9rem, 4.9vw, 4.75rem); }
+  .title p { font-size: min(1.35rem, 1.5vw); }
+  .about { padding: 12vh clamp(32px, 5vw, 80px) 24px; margin: 0; max-width: 44rem; }
+  .shots { grid-auto-flow: row; grid-template-columns: repeat(2, 1fr); overflow: visible; margin: 2em 0; padding: 0; max-width: 34rem; }
 }
 
-/* The privacy policy: a document to read. */
-.policy h2 { font-size: 1.4rem; margin-top: 1.9em; }
-.policy .meta { color: var(--muted); margin-bottom: 1.6em; }
-.policy .summary { background: var(--card); border-radius: 14px; padding: 16px 20px; box-shadow: var(--shadow); }
-.policy .summary p:last-child { margin-bottom: 0; }
-
-.site-footer { border-top: 1px solid var(--rule); padding: 20px 0 32px; color: var(--muted); font-size: 0.95rem; }
-.site-footer p { margin: 0; }
-.site-footer a { display: inline-block; min-height: 44px; line-height: 44px; }
-
-.center { text-align: center; }
+/* Plain pages: the privacy policy and the 404. */
+body.plain { background: #fdfcf8; color: #1f1f1c; }
+body.plain a { color: #2d5a3c; }
+body.plain a:focus-visible { outline-color: #2d5a3c; }
+body.plain h1 { font: 600 clamp(1.7rem, 5vw, 2.2rem)/1.2 var(--game); margin: 0.4em 0 0.3em; }
+body.plain h2 { color: inherit; font-size: 1.2rem; margin: 2em 0 0.5em; }
+body.plain .doc { max-width: 42rem; margin: 0 auto; padding: 28px var(--gutter) 56px; }
+body.plain .meta { color: #5a5a52; }
+body.plain .back { display: inline-block; padding: 10px 0; font-size: 0.95rem; }
+body.plain .site-footer { border-color: #e2ded3; color: #5a5a52; }
+@media (prefers-color-scheme: dark) {
+  body.plain { background: var(--ground); color: var(--text); }
+  body.plain a { color: var(--gold); }
+  body.plain a:focus-visible { outline-color: var(--gold); }
+  body.plain .meta, body.plain .site-footer { color: var(--muted); }
+  body.plain .site-footer { border-color: var(--rule); }
+}
