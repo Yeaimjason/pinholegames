@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Lumen &amp; Leaf</title>
-  <meta name="description" content="Lumen &amp; Leaf: bend sunlight with mirrors, glass and prisms, and bring an old estate's greenhouses back to bloom. A light puzzle game for Android phones by Pinhole Games.">
+  <meta name="description" content="Lumen &amp; Leaf: bend sunlight with mirrors, glass and prisms, and bring an old estate's greenhouses back to bloom. 50 handcrafted puzzles for Android phones, free to try, no ads.">
   <link rel="canonical" href="https://pinholegames.com/">
   <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="icon" href="/assets/favicon-32.png" sizes="32x32" type="image/png">
@@ -17,55 +17,169 @@
   <meta property="og:description" content="Bend sunlight with mirrors, glass and prisms, and bring an old estate's greenhouses back to bloom.">
   <meta property="og:url" content="https://pinholegames.com/">
   <meta property="og:image" content="https://pinholegames.com/assets/lumen-and-leaf/feature.jpg">
-  <link rel="stylesheet" href="/assets/site.css">
+  <style>
+    /* Lumen & Leaf's own look: its title painting, its lettering (Open Sans SemiBold, gold with a dark edge) and its
+       colours (src/game/palette.gd). One column, the same on a phone and a desktop. */
+    @font-face {
+      font-family: "Open Sans";
+      src: url("/assets/fonts/open-sans-semibold.woff2") format("woff2");
+      font-weight: 600;
+      font-display: swap;
+    }
+    :root {
+      --ground: #1b201d;
+      --frame: #0e120f;
+      --button: #3d4a42;
+      --text: #ede6d1;
+      --muted: #a6b0a1;
+      --gold: #ffdb73;
+      --edge: rgba(51, 33, 15, 0.85);
+      --brown: #3d2b1a;
+      --font: "Open Sans", system-ui, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+    body { margin: 0; background: var(--ground); color: var(--text); font: 600 1.0625rem/1.65 var(--font); }
+    img, video { display: block; max-width: 100%; }
+    a { color: var(--gold); text-underline-offset: 0.2em; }
+    a:focus-visible, button:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; border-radius: 6px; }
+
+    /* The hero: the painted meadow and its greenhouse across the whole screen, the name over the sky, the button
+       over the meadow, as the game's title screen lays them out. */
+    .hero { position: relative; height: 100svh; min-height: 560px; overflow: hidden; display: flex;
+            flex-direction: column; align-items: center; text-align: center; padding: 0 16px; }
+    .hero picture, .hero .art { position: absolute; inset: 0; width: 100%; height: 100%; }
+    .hero .art { object-fit: cover; object-position: 50% 22%; }
+    @media (min-aspect-ratio: 1/1) { .hero .art { object-position: 50% 40%; } }
+    .hero > :not(picture) { position: relative; }
+    .hero h1 { margin: 15svh 0 0; font: 600 min(6rem, 12vw)/1.05 var(--font); color: var(--gold); white-space: nowrap;
+               -webkit-text-stroke: 0.15em var(--edge); paint-order: stroke fill; }
+    .tagline { margin: 0.5em 0 0; font-size: min(1.4rem, 4vw); line-height: 1.45; color: var(--brown); white-space: nowrap; }
+    .play { margin-top: auto; margin-bottom: 10svh; display: flex; flex-direction: column; align-items: center; gap: 14px; }
+    .button { display: inline-block; padding: 16px 30px; border-radius: 14px; background: var(--button); color: var(--text);
+              font-size: 1.15rem; line-height: 1.2; box-shadow: 0 2px 0 rgba(0, 0, 0, 0.25); }
+    /* Words over the painting get a dark edge, as the game gives its words over painted art. */
+    .watch { color: var(--text); font-size: 1rem; text-decoration: none; display: inline-flex; align-items: center;
+             gap: 8px; padding: 6px 10px; -webkit-text-stroke: 4px rgba(22, 30, 20, 0.85); paint-order: stroke fill;
+             text-shadow: 0 0 10px rgba(22, 30, 20, 0.6); }
+    .watch:hover { text-decoration: underline; }
+    .watch svg { width: 1.1em; height: 1.1em; filter: drop-shadow(0 0 1.5px rgba(22, 30, 20, 0.95)) drop-shadow(0 0 4px rgba(22, 30, 20, 0.6)); }
+
+    /* Three phone screenshots in simple rounded frames: side by side, or a row to swipe on a narrow screen. */
+    .shots { display: flex; justify-content: center; gap: clamp(16px, 3vw, 40px); padding: clamp(72px, 12vw, 128px) 24px 0;
+             overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+    .shots::-webkit-scrollbar { display: none; }
+    .shots figure { margin: 0; flex: 0 0 auto; width: clamp(200px, 26vw, 300px); scroll-snap-align: center;
+                    padding: 8px; border-radius: 30px; background: var(--frame); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06); }
+    .shots img { width: 100%; height: auto; aspect-ratio: 9 / 16; border-radius: 22px; }
+    @media (max-width: 720px) {
+      .shots { justify-content: flex-start; padding-left: 13vw; padding-right: 13vw; scroll-padding: 0 13vw; }
+      .shots figure { width: 74vw; }
+    }
+
+    .about { max-width: 34rem; margin: 0 auto; padding: clamp(64px, 10vw, 112px) 24px 0; text-align: center; }
+    .about p { margin: 0 0 1.2em; color: var(--text); font-size: 1.12rem; line-height: 1.75; }
+    .facts { color: var(--gold); font-size: 1.15rem; letter-spacing: 0.01em; margin-top: 2em; }
+    .facts span { white-space: nowrap; }
+    .facts span + span::before { content: "·"; margin: 0 0.6em; }
+    @media (max-width: 560px) {
+      .facts span { display: block; }
+      .facts span + span::before { content: none; }
+    }
+
+    footer { padding: clamp(80px, 12vw, 128px) 24px 48px; text-align: center; color: var(--muted); font-size: 0.92rem; }
+    footer p { margin: 0; line-height: 2.2; }
+    footer a { color: var(--muted); }
+    footer .dot { padding: 0 0.6em; }
+
+    /* The trailer, over the page. */
+    dialog { padding: 0; border: 0; background: transparent; max-width: none; max-height: none; overflow: visible; }
+    dialog::backdrop { background: rgba(8, 10, 9, 0.88); }
+    dialog video { height: min(88svh, 160vw); width: auto; aspect-ratio: 9 / 16; border-radius: 16px; background: #000; }
+    .close { position: absolute; top: -14px; right: -14px; width: 44px; height: 44px; border-radius: 50%; border: 0;
+             background: var(--button); color: var(--text); font: 600 1.5rem/1 var(--font); cursor: pointer; }
+  </style>
 </head>
 <body>
-  <div class="page">
-    <header class="title">
-      <h1>Lumen &amp; Leaf</h1>
-      <p>Bend the sunlight.<br>Bring the old greenhouses back to bloom.</p>
-    </header>
+  <header class="hero">
+    <picture>
+      <source media="(min-aspect-ratio: 1/1)" type="image/avif" sizes="100vw"
+        srcset="/assets/lumen-and-leaf/hero-wide-1600.avif 1600w, /assets/lumen-and-leaf/hero-wide-2560.avif 2560w">
+      <source media="(min-aspect-ratio: 1/1)" sizes="100vw"
+        srcset="/assets/lumen-and-leaf/hero-wide-1600.jpg 1600w, /assets/lumen-and-leaf/hero-wide-2560.jpg 2560w">
+      <source type="image/avif" srcset="/assets/lumen-and-leaf/hero-tall.avif">
+      <img class="art" src="/assets/lumen-and-leaf/hero-tall.jpg" width="1080" height="2400" alt="" fetchpriority="high">
+    </picture>
+    <h1>Lumen &amp; Leaf</h1>
+    <p class="tagline">Bend the sunlight.<br>Bring the old greenhouses back to bloom.</p>
+    <div class="play">
+      <span class="button">Coming soon to Google Play</span>
+      <a class="watch" id="watch" href="/assets/lumen-and-leaf/trailer.mp4"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="9" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8 6.2v7.6l6-3.8z" fill="currentColor"/></svg>Watch the trailer</a>
+    </div>
+  </header>
 
-    <main class="about">
-      <p class="pricing">Free to try. One purchase unlocks the full game. No ads, ever.</p>
-      <p class="status">Coming soon to Google Play, for Android phones.</p>
+  <main>
+    <div class="shots">
+      <figure>
+        <picture>
+          <source type="image/avif" srcset="/assets/lumen-and-leaf/shot-herb-house.avif">
+          <img src="/assets/lumen-and-leaf/shot-herb-house.jpg" width="540" height="960" loading="lazy"
+            alt="A Herb House level: sunlight bounces off mirrors across a wooden potting bench between crates.">
+        </picture>
+      </figure>
+      <figure>
+        <picture>
+          <source type="image/avif" srcset="/assets/lumen-and-leaf/shot-rose-garden.avif">
+          <img src="/assets/lumen-and-leaf/shot-rose-garden.jpg" width="540" height="960" loading="lazy"
+            alt="A Rose Garden level: a prism splits the sunlight into red, yellow and blue, each beam reaching a flower of its color.">
+        </picture>
+      </figure>
+      <figure>
+        <picture>
+          <source type="image/avif" srcset="/assets/lumen-and-leaf/shot-fern-grotto.avif">
+          <img src="/assets/lumen-and-leaf/shot-fern-grotto.jpg" width="540" height="960" loading="lazy"
+            alt="A Fern Grotto level: light crosses a slate bench through a glass wedge, ferns in the shade.">
+        </picture>
+      </figure>
+    </div>
 
-      <p>Lumen &amp; Leaf is a calm, handcrafted light puzzle game. Drag pieces onto a potting bench, turn and
-        flip them, and guide the morning sun to every plant that needs it, while the shade-loving ferns stay in
-        the dark. The light follows every move at once, so you can try an idea and see what happens straight
-        away.</p>
+    <section class="about">
+      <p>Lumen &amp; Leaf is a calm light puzzle game. Drag mirrors, glass and prisms onto a potting bench, turn and
+        flip them, and guide the morning sun to every plant that needs it, while the shade-loving ferns stay in the
+        dark. The light follows every move at once, so you can try an idea and see what happens straight away.</p>
+      <p class="facts"><span>50 handcrafted puzzles</span><span>No ads, ever</span><span>Free to try</span></p>
+    </section>
+  </main>
 
-      <div class="shots">
-        <img src="/assets/lumen-and-leaf/golden-hour.jpg" width="540" height="960" loading="lazy"
-          alt="A Herb House level: sunlight bounces off mirrors across a wooden potting bench between crates.">
-        <img src="/assets/lumen-and-leaf/prism-fan.jpg" width="540" height="960" loading="lazy"
-          alt="A Rose Garden level: a prism splits the sunlight into red, yellow and blue beams, each reaching a flower of its color.">
-        <img src="/assets/lumen-and-leaf/crossroads.jpg" width="540" height="960" loading="lazy"
-          alt="A solved level: white, red, yellow and blue light crosses the bench and every flower is in bloom.">
-        <img src="/assets/lumen-and-leaf/estate.jpg" width="540" height="960" loading="lazy"
-          alt="The estate map: paths through a garden to the Herb House, the Fern Grotto, the Rose Garden and the garden shed.">
-      </div>
+  <footer>
+    <p>Pinhole Games<span class="dot">·</span><a href="mailto:support@pinholegames.com">support@pinholegames.com</a></p>
+    <p><a href="/lumen-and-leaf/privacy">Privacy policy</a><span class="dot">·</span>© 2026</p>
+  </footer>
 
-      <h2>In the game</h2>
-      <ul>
-        <li>Mirrors reflect light, glass wedges bend it by one exact step, and prisms split white light into red,
-          yellow and blue. Color filters join them too.</li>
-        <li>40 handcrafted puzzles in three greenhouses: the Herb House, the Fern Grotto and the Rose Garden.</li>
-        <li>Free hints, as many as you like. Solve a level without one to plant its rare flower.</li>
-        <li>No timers, no energy, no currency.</li>
-        <li>Colorblind shape markers, reduced motion, larger text, and vibration and sound you can turn off.</li>
-        <li>English, Japanese, Korean, German, French, Spanish, Brazilian Portuguese and Traditional Chinese.</li>
-        <li>No ads, no tracking, no account: your progress stays on your phone.</li>
-      </ul>
-      <p>The eight Herb House levels and the first four Fern Grotto levels are free. One purchase opens the rest
-        of the estate, and every greenhouse still to come.</p>
-
-      <footer class="site-footer">
-        <p>Lumen &amp; Leaf is made by Pinhole Games.</p>
-        <p>Questions, or help with a purchase: <a href="mailto:support@pinholegames.com">support@pinholegames.com</a></p>
-        <p><a href="/lumen-and-leaf/privacy">Privacy policy</a> · © 2026 Pinhole Games</p>
-      </footer>
-    </main>
-  </div>
+  <dialog id="trailer" aria-label="Lumen &amp; Leaf trailer">
+    <video controls playsinline preload="none" width="1080" height="1920"></video>
+    <form method="dialog"><button class="close" aria-label="Close the trailer">×</button></form>
+  </dialog>
+  <script>
+    // Watch the trailer: the video loads only when asked for, plays over the page and stops when it closes.
+    // Without this (or a browser without <dialog>), the link opens the video itself.
+    (function () {
+      var link = document.getElementById("watch");
+      var dialog = document.getElementById("trailer");
+      var video = dialog.querySelector("video");
+      if (!dialog.showModal) return;
+      link.addEventListener("click", function (event) {
+        event.preventDefault();
+        if (!video.getAttribute("src")) {
+          video.poster = "/assets/lumen-and-leaf/trailer-poster.jpg";
+          video.src = link.href;
+        }
+        dialog.showModal();
+        video.play().catch(function () {});
+      });
+      dialog.addEventListener("close", function () { video.pause(); });
+      dialog.addEventListener("click", function (event) { if (event.target === dialog) dialog.close(); });
+    })();
+  </script>
 </body>
 </html>

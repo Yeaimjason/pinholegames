@@ -1,6 +1,5 @@
-/* pinholegames.com. The Lumen & Leaf page wears the game's own look: its title painting, its lettering
-   (Open Sans SemiBold, gold with a dark edge) and its colours (src/game/palette.gd). The privacy policy
-   and the 404 page are plain pages. No scripts, nothing loaded from another site. */
+/* pinholegames.com's plain pages: the privacy policy, the 404 and the old game address's redirect. The home page
+   (index.html) carries its own styles. No scripts, nothing loaded from another site. */
 
 @font-face {
   font-family: "Open Sans";
@@ -35,53 +34,8 @@ p, ul { margin: 0 0 1em; }
 ul { padding-left: 1.1em; }
 li { margin-bottom: 0.5em; }
 
-/* The title screen: the painted meadow and its greenhouse, the game's name lettered over the sky. */
-.title {
-  min-height: 100svh;
-  padding: 16svh var(--gutter) 0;
-  background: #b9d3e6 url("/assets/lumen-and-leaf/title.jpg") center 22% / cover no-repeat;
-  text-align: center;
-}
-.title h1 {
-  margin: 0;
-  font: 600 min(6.4rem, 12vw)/1.05 var(--game);
-  white-space: nowrap;
-  color: var(--gold);
-  -webkit-text-stroke: 0.15em var(--edge);
-  paint-order: stroke fill;
-}
-/* Each line of the tagline on a line of its own, never wrapped, as the title screen has it. */
-.title p {
-  margin: 0.55em 0 0;
-  font: 600 min(1.45rem, 4vw)/1.45 var(--game);
-  color: var(--brown);
-  white-space: nowrap;
-}
-
-.about { padding: 40px var(--gutter) 24px; max-width: 46rem; margin: 0 auto; }
-.pricing { font: 600 clamp(1.25rem, 4vw, 1.6rem)/1.35 var(--game); color: var(--gold); margin-bottom: 0.4em; }
-.status { color: var(--muted); margin-bottom: 1.8em; }
-
-/* Screenshots: a row to swipe on a phone, a grid beside the painting on a wide screen. */
-.shots {
-  display: grid; grid-auto-flow: column; grid-auto-columns: min(62vw, 240px); gap: 12px;
-  overflow-x: auto; scroll-snap-type: x mandatory; overscroll-behavior-x: contain;
-  margin: 2em calc(-1 * var(--gutter)); padding: 0 var(--gutter) 8px;
-}
-.shots img { scroll-snap-align: start; border-radius: 10px; aspect-ratio: 540 / 960; width: 100%; }
-
 .site-footer { border-top: 1px solid var(--rule); margin-top: 3em; padding: 20px 0 36px; color: var(--muted); font-size: 0.95rem; }
 .site-footer p { margin: 0 0 0.4em; }
-
-/* A wide screen: the title screen stays in view at the left, the rest scrolls beside it. */
-@media (min-width: 960px) {
-  .page { display: grid; grid-template-columns: minmax(420px, 42vw) 1fr; }
-  .title { position: sticky; top: 0; height: 100vh; min-height: 0; padding: 14vh 32px 0; background-position: center 20%; }
-  .title h1 { font-size: clamp(2.9rem, 4.9vw, 4.75rem); }
-  .title p { font-size: min(1.35rem, 1.5vw); }
-  .about { padding: 12vh clamp(32px, 5vw, 80px) 24px; margin: 0; max-width: 44rem; }
-  .shots { grid-auto-flow: row; grid-template-columns: repeat(2, 1fr); overflow: visible; margin: 2em 0; padding: 0; max-width: 34rem; }
-}
 
 /* Plain pages: the privacy policy and the 404. */
 body.plain { background: #fdfcf8; color: #1f1f1c; }
