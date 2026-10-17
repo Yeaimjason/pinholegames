@@ -7,7 +7,7 @@ served by GitHub Pages from this repository's `main` branch at https://pinholega
 |---|---|
 | `index.html` | `/`: the studio |
 | `lumen-and-leaf/index.html` | `/lumen-and-leaf/`: the game |
-| `lumen-and-leaf/privacy/index.html` | `/lumen-and-leaf/privacy`: the game's privacy policy, the URL given in Play Console and opened by the game's settings |
+| `lumen-and-leaf/privacy.html` | `/lumen-and-leaf/privacy` (GitHub Pages serves a `.html` file without its extension): the game's privacy policy, the URL given in Play Console and opened by the game's settings |
 | `404.html` | any other address |
 | `assets/` | the stylesheet, the mark (`pinhole.svg`, also the favicon) and the game's pictures |
 
@@ -39,6 +39,6 @@ The domain is registered with Vercel, which also serves its DNS; nothing is host
 Pages needs, for `pinholegames.com`: A records 185.199.108.153, 185.199.109.153, 185.199.110.153 and
 185.199.111.153; AAAA records 2606:50c0:8000::153, 2606:50c0:8001::153, 2606:50c0:8002::153 and
 2606:50c0:8003::153; and for `www`, a CNAME to `yeaimjason.github.io`. The domain is verified for the
-GitHub account (a `_github-pages-challenge-yeaimjason` TXT record, which must stay), so no other account
+GitHub account (a `_github-pages-challenge-Yeaimjason` TXT record, which must stay), so no other account
 can publish a Pages site on it. The MX and SPF TXT records are ImprovMX's email forwarding
 (support@pinholegames.com): leave them as they are.
